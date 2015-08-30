@@ -15,6 +15,9 @@
 /** 选中某个按钮时的代理回调 */
 - (void)segmentControl:(JRSegmentControl *)segment didSelectedIndex:(NSInteger)index;
 
+/** 指示视图滑动进度的代理回调 */
+- (void)segmentControl:(JRSegmentControl *)segment didScrolledPersent:(CGFloat)persent;
+
 @end
 
 @interface JRSegmentControl : UIView

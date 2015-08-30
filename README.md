@@ -5,7 +5,7 @@
 
 -------------
 
-![JRSegmentControl](https://github.com/zhanjiarong/JRSegmentControl/blob/master/2015-08-30_16_00_07.gif?raw=true)
+![JRSegmentControl](https://github.com/zhanjiarong/JRSegmentControl/blob/master/2015-08-30_16_49_40.gif?raw=true)
 
 -------------
 

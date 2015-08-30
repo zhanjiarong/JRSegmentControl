@@ -152,6 +152,11 @@
         frame.origin = CGPointMake(frame.origin.x + delta, 0);
     }
     
+    CGFloat persent = indicatorView.frame.origin.x / (btnCount * btnWidth);
+    if ([self.delegate respondsToSelector:@selector(segmentControl:didScrolledPersent:)]) {
+        [self.delegate segmentControl:self didScrolledPersent:persent];
+    }
+    
     indicatorView.frame = frame;
 }
 
