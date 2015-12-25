@@ -23,6 +23,7 @@
 	JRSegmentViewController *vc = [[JRSegmentViewController alloc] init];
     vc.segmentBgColor = [UIColor colorWithRed:18.0f/255 green:50.0f/255 blue:110.0f/255 alpha:1.0f];
     vc.indicatorViewColor = [UIColor whiteColor];
+    vc.titleColor = [UIColor whiteColor];
     
     [vc setViewControllers:@[firstVC, secondVC, thirdVC]];
     [vc setTitles:@[@"热点", @"聚焦", @"推荐"]];
@@ -42,9 +43,12 @@
 ```
 
 ```
-	JRSegmentControl *segment = [[JRSegmentControl alloc] initWithFrame:CGRectMake(20, 20, 180, 30) titles:@[@"热点", @"聚焦", @"推荐"]];
-    segment.backgroundColor = [UIColor grayColor];
+	JRSegmentControl *segment = [[JRSegmentControl alloc] initWithFrame:CGRectMake(0, 0, _itemWidth * 3, 30.0f)];
+    segment.titles = @[@"热点", @"聚焦", @"推荐"];
+    segment.cornerRadius = 5.0f;
+    segment.titleColor = [UIColor whiteColor];
     segment.indicatorViewColor = [UIColor whiteColor];
+    segment.backgroundColor = [UIColor colorWithRed:18.0f/255 green:50.0f/255 blue:110.0f/255 alpha:1.0f];
     
     segment.delegate = self; // 遵守协议即可
     

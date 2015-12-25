@@ -8,22 +8,38 @@
 
 #import "JRSegmentControl.h"
 
-#define DefaultCurrentBtnColor [UIColor grayColor]
+#define DefaultCurrentBtnColor [UIColor whiteColor]
+
+
+#pragma mark - JRSegmentButton
+
+@interface JRSegmentButton ()
+
+@end
+
+@implementation JRSegmentButton
+
+- (void)setHighlighted:(BOOL)highlighted {
+    // 取消高亮效果
+}
+
+@end
+
+#pragma mark - JRSegmentControl
 
 @interface JRSegmentControl ()
 {
-    NSUInteger btnCount; // 按钮总数
+    NSUInteger _btnCount; // 按钮总数
     
-    CGFloat btnWidth; // 按钮宽度
+    CGFloat _btnWidth; // 按钮宽度
     
-    UIButton *currentBtn;   // 指示视图当前所在的按钮
+    JRSegmentButton *_currentBtn;   // 指示视图当前所在的按钮
     
-    UIView *indicatorView; // 指示视图(滑动视图)
+    UIView *_indicatorView; // 指示视图(滑动视图)
     
-    BOOL isSelectedBegan; // 是否设置了selectedBegan
+    BOOL _isSelectedBegan; // 是否设置了selectedBegan
 }
 
-@property (nonatomic, copy) NSArray *titles;
 @property (nonatomic, strong) NSMutableArray *buttons; // 存放button
 
 @end
@@ -36,21 +52,44 @@
 
 
 #pragma mark 初始化
-- (instancetype)initWithFrame:(CGRect)frame titles:(NSArray *)titles
+- (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
         self.layer.cornerRadius  = frame.size.height / 10;
         self.layer.masksToBounds = YES;
-        
-        self.titles = titles;
-        btnCount = titles.count;
-        [self createUI];
     }
     
     return self;
 }
 
 #pragma mark setter/getter方法
+
+/**
+ *  设置按钮标题数组
+ */
+- (void)setTitles:(NSArray *)titles
+{
+    _titles = [titles copy];
+    
+    _btnCount = [_titles count];
+    
+    [self createUI];
+}
+
+/**
+ *  设置圆角半径
+ */
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
+    _cornerRadius = cornerRadius;
+    
+    self.layer.cornerRadius = _cornerRadius;
+    _indicatorView.layer.cornerRadius = _cornerRadius;
+}
+
+/**
+ *  设置保存按钮的数组
+ */
 - (NSMutableArray *)buttons
 {
     if (_buttons == nil) {
@@ -59,21 +98,21 @@
     return _buttons;
 }
 
+/**
+ *  设置指示视图的背景色
+ */
 - (void)setIndicatorViewColor:(UIColor *)indicatorViewColor
 {
     if (indicatorViewColor == nil) {
         return;
     }
     _indicatorViewColor = indicatorViewColor;
-    indicatorView.backgroundColor = _indicatorViewColor;
-    for (UIButton *btn in self.buttons) {
-        if (currentBtn != btn) {
-            [btn setTitleColor:self.indicatorViewColor forState:UIControlStateNormal];
-            [btn setTitleColor:self.indicatorViewColor forState:UIControlStateHighlighted];
-        }
-    }
+    _indicatorView.backgroundColor = _indicatorViewColor;
 }
 
+/**
+ *  获取指示视图的背景色
+ */
 - (UIColor *)indicatorViewColor
 {
     if (_indicatorViewColor == nil) {
@@ -82,49 +121,70 @@
     return _indicatorViewColor;
 }
 
+/**
+ *  设置按钮上文字颜色
+ */
+- (void)setTitleColor:(UIColor *)titleColor {
+    _titleColor = titleColor;
+    
+    for (int i = 0; i < _btnCount; i++) {
+        JRSegmentButton *btn = self.buttons[i];
+        [btn setTitleColor:_titleColor forState:UIControlStateNormal];
+        [btn setTitleColor:_titleColor forState:UIControlStateHighlighted];
+    }
+    
+    // 如果不设置backgroundColor，第一个按钮的文字颜色就会被设置为默认颜色
+    [_currentBtn setTitleColor:DefaultCurrentBtnColor forState:UIControlStateNormal];
+}
+
+/**
+ *  设置背景色
+ */
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    [currentBtn setTitleColor:backgroundColor forState:UIControlStateNormal];
+    [_currentBtn setTitleColor:backgroundColor forState:UIControlStateNormal];
 }
 
 
 #pragma mark 创建视图
 - (void)createUI
 {
-    btnWidth = self.frame.size.width / btnCount;
+    _btnWidth = self.frame.size.width / _btnCount;
     CGFloat btnHeight = self.frame.size.height;
     
     // 指示视图
-    indicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnHeight)];
-    indicatorView.backgroundColor = self.indicatorViewColor;
-    indicatorView.layer.cornerRadius = self.layer.cornerRadius;
-    indicatorView.layer.masksToBounds = YES;
-    [self addSubview:indicatorView];
+    _indicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _btnWidth, btnHeight)];
+    _indicatorView.backgroundColor = self.indicatorViewColor;
+    _indicatorView.layer.cornerRadius = self.layer.cornerRadius;
+    _indicatorView.layer.masksToBounds = YES;
+    [self addSubview:_indicatorView];
     
     // 创建各个按钮
-    for (int i = 0; i < btnCount; i++)
+    for (int i = 0; i < _btnCount; i++)
     {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-        btn.frame = CGRectMake(btnWidth * i, 0, btnWidth, btnHeight);
+        JRSegmentButton *btn = [JRSegmentButton buttonWithType:UIButtonTypeSystem];
+        btn.frame = CGRectMake(_btnWidth * i, 0, _btnWidth, btnHeight);
         [btn setTitle:self.titles[i] forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:17.0f];
         [btn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
         [self addSubview:btn];
         
         [self.buttons addObject:btn]; // 加入数组
     }
     
     // 第一个设置字体颜色
-    currentBtn = (UIButton *)self.buttons[0];
+    _currentBtn = (JRSegmentButton *)self.buttons[0];
     // 如果不设置backgroundColor，第一个按钮的文字颜色就会被设置为默认颜色
-    [currentBtn setTitleColor:DefaultCurrentBtnColor forState:UIControlStateNormal];
+    [_currentBtn setTitleColor:DefaultCurrentBtnColor forState:UIControlStateNormal];
 }
 
 #pragma mark 事件拦截，当点击区域在指示视图的范围内时就直接把事件交给self处理，按钮就接收不到事件了
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
-    CGPoint p = [self convertPoint:point toView:indicatorView];
-    if ([indicatorView pointInside:p withEvent:event]) {
+    CGPoint p = [self convertPoint:point toView:_indicatorView];
+    if ([_indicatorView pointInside:p withEvent:event]) {
         return self;
     } else {
         return [super hitTest:point withEvent:event];
@@ -145,27 +205,27 @@
     
     CGFloat delta = point.x - prevP.x; // 手势改变的x范围
     
-    CGRect frame = indicatorView.frame;
+    CGRect frame = _indicatorView.frame;
     
-    // 限制indicatorView的滑动范围
-    if (frame.origin.x + delta >= 0 && frame.origin.x + delta <= (btnCount - 1) * btnWidth) {
+    // 限制_indicatorView的滑动范围
+    if (frame.origin.x + delta >= 0 && frame.origin.x + delta <= (_btnCount - 1) * _btnWidth) {
         frame.origin = CGPointMake(frame.origin.x + delta, 0);
     }
     
-    CGFloat persent = indicatorView.frame.origin.x / (btnCount * btnWidth);
+    CGFloat persent = _indicatorView.frame.origin.x / (_btnCount * _btnWidth);
     if ([self.delegate respondsToSelector:@selector(segmentControl:didScrolledPersent:)]) {
         [self.delegate segmentControl:self didScrolledPersent:persent];
     }
     
-    indicatorView.frame = frame;
+    _indicatorView.frame = frame;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    // 先计算indicatorView最终应该在哪个button上
-    CGPoint center = indicatorView.center;
+    // 先计算_indicatorView最终应该在哪个button上
+    CGPoint center = _indicatorView.center;
     
-    NSInteger index = (NSInteger)center.x / btnWidth;
+    NSInteger index = (NSInteger)center.x / _btnWidth;
     
     [self setSelectedIndex:index]; //////////////////////////////////////
 }
@@ -175,10 +235,24 @@
     [self touchesEnded:touches withEvent:event];
 }
 
+
+- (void)setIndicatorViewPercent:(CGFloat)percent {
+    CGRect frame = _indicatorView.frame;
+    frame.origin.x = _btnCount * _btnWidth * percent;
+    
+    _indicatorView.frame = frame;
+}
+
 #pragma mark 按钮点击事件处理
 - (void)btnClicked:(UIButton *)btn
 {
-    NSInteger index = (NSInteger)btn.frame.origin.x / btnWidth; // 求出按钮的Index
+    NSInteger index = 0;
+    for (UIButton *button in self.buttons) {
+        if (button.frame.origin.x == btn.frame.origin.x) {
+            break;
+        }
+        index++;
+    }
     
     [self setSelectedIndex:index]; //////////////////////////////////////
 }
@@ -193,11 +267,11 @@
     
     [self selectedBegan]; // 选中开始的设置 //////////////////////////////////////
     
-    currentBtn = self.buttons[index];
+    _currentBtn = self.buttons[index];
     
     [UIView animateWithDuration:0.25f animations:^{
         
-        indicatorView.frame = CGRectMake(btnWidth * index, 0, indicatorView.frame.size.width, indicatorView.frame.size.height);
+        _indicatorView.frame = CGRectMake(_btnWidth * index, 0, _indicatorView.frame.size.width, _indicatorView.frame.size.height);
         
     } completion:^(BOOL finished) {
         
@@ -208,26 +282,26 @@
 /** 选开始的设置，指示视图变暗，字体颜色改变 */
 - (void)selectedBegan
 {
-    if (isSelectedBegan) return;
+    if (_isSelectedBegan) return;
     
-    isSelectedBegan = YES;
+    _isSelectedBegan = YES;
     
-    indicatorView.alpha = 0.5f;
-    [currentBtn setTitleColor:self.indicatorViewColor forState:UIControlStateNormal];
+    _indicatorView.alpha = 0.5f;
+    [_currentBtn setTitleColor:self.titleColor forState:UIControlStateNormal];
 }
 
 /** 选开始的设置 */
 - (void)selectedEnd
 {
-    if (!isSelectedBegan) return;
+    if (!_isSelectedBegan) return;
     
-    isSelectedBegan = NO;
+    _isSelectedBegan = NO;
     
-    indicatorView.alpha = 1.0f;
+    _indicatorView.alpha = 1.0f;
     
     // 如果没有设置background，就为默认颜色
     UIColor *color = self.backgroundColor ? self.backgroundColor : DefaultCurrentBtnColor;
-    [currentBtn setTitleColor:color forState:UIControlStateNormal];
+    [_currentBtn setTitleColor:color forState:UIControlStateNormal];
 }
 
 @end

@@ -14,7 +14,6 @@
 		C00BF0DF1B92E6C30010A514 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C00BF0DE1B92E6C30010A514 /* Images.xcassets */; };
 		C00BF0E21B92E6C30010A514 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C00BF0E01B92E6C30010A514 /* LaunchScreen.xib */; };
 		C00BF0EE1B92E6C30010A514 /* JRSegmentControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BF0ED1B92E6C30010A514 /* JRSegmentControlTests.m */; };
-		C00BF0FA1B92E7400010A514 /* JRSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BF0F91B92E7400010A514 /* JRSegmentControl.m */; };
 		C00BF0FD1B92E74E0010A514 /* JRSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BF0FC1B92E74E0010A514 /* JRSegmentViewController.m */; };
 		C00BF1091B92E7790010A514 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BF1011B92E7790010A514 /* FirstViewController.m */; };
 		C00BF10A1B92E7790010A514 /* FirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C00BF1021B92E7790010A514 /* FirstViewController.xib */; };
@@ -22,6 +21,7 @@
 		C00BF10C1B92E7790010A514 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C00BF1051B92E7790010A514 /* SecondViewController.xib */; };
 		C00BF10D1B92E7790010A514 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C00BF1071B92E7790010A514 /* ThirdViewController.m */; };
 		C00BF10E1B92E7790010A514 /* ThirdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C00BF1081B92E7790010A514 /* ThirdViewController.xib */; };
+		C0B81F5D1C2D482900CBC79A /* JRSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B81F5C1C2D482900CBC79A /* JRSegmentControl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,8 +48,6 @@
 		C00BF0E71B92E6C30010A514 /* JRSegmentControlTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JRSegmentControlTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C00BF0EC1B92E6C30010A514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C00BF0ED1B92E6C30010A514 /* JRSegmentControlTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JRSegmentControlTests.m; sourceTree = "<group>"; };
-		C00BF0F81B92E7400010A514 /* JRSegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSegmentControl.h; sourceTree = "<group>"; };
-		C00BF0F91B92E7400010A514 /* JRSegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSegmentControl.m; sourceTree = "<group>"; };
 		C00BF0FB1B92E74E0010A514 /* JRSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSegmentViewController.h; sourceTree = "<group>"; };
 		C00BF0FC1B92E74E0010A514 /* JRSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSegmentViewController.m; sourceTree = "<group>"; };
 		C00BF1001B92E7790010A514 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
@@ -61,6 +59,8 @@
 		C00BF1061B92E7790010A514 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		C00BF1071B92E7790010A514 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
 		C00BF1081B92E7790010A514 /* ThirdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThirdViewController.xib; sourceTree = "<group>"; };
+		C0B81F5B1C2D482900CBC79A /* JRSegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSegmentControl.h; sourceTree = "<group>"; };
+		C0B81F5C1C2D482900CBC79A /* JRSegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSegmentControl.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,8 +145,8 @@
 		C00BF0F71B92E71E0010A514 /* JRSegmentControl */ = {
 			isa = PBXGroup;
 			children = (
-				C00BF0F81B92E7400010A514 /* JRSegmentControl.h */,
-				C00BF0F91B92E7400010A514 /* JRSegmentControl.m */,
+				C0B81F5B1C2D482900CBC79A /* JRSegmentControl.h */,
+				C0B81F5C1C2D482900CBC79A /* JRSegmentControl.m */,
 				C00BF0FB1B92E74E0010A514 /* JRSegmentViewController.h */,
 				C00BF0FC1B92E74E0010A514 /* JRSegmentViewController.m */,
 			);
@@ -275,9 +275,9 @@
 				C00BF0DA1B92E6C30010A514 /* ViewController.m in Sources */,
 				C00BF1091B92E7790010A514 /* FirstViewController.m in Sources */,
 				C00BF10D1B92E7790010A514 /* ThirdViewController.m in Sources */,
-				C00BF0FA1B92E7400010A514 /* JRSegmentControl.m in Sources */,
 				C00BF10B1B92E7790010A514 /* SecondViewController.m in Sources */,
 				C00BF0D71B92E6C30010A514 /* AppDelegate.m in Sources */,
+				C0B81F5D1C2D482900CBC79A /* JRSegmentControl.m in Sources */,
 				C00BF0D41B92E6C30010A514 /* main.m in Sources */,
 				C00BF0FD1B92E74E0010A514 /* JRSegmentViewController.m in Sources */,
 			);
@@ -476,6 +476,7 @@
 				C00BF0F31B92E6C30010A514 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C00BF0F41B92E6C30010A514 /* Build configuration list for PBXNativeTarget "JRSegmentControlTests" */ = {
 			isa = XCConfigurationList;
@@ -484,6 +485,7 @@
 				C00BF0F61B92E6C30010A514 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

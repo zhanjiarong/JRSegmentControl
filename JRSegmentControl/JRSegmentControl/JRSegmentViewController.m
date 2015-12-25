@@ -14,6 +14,8 @@
     CGFloat vcHeight; // 每个子视图控制器的视图的高
     
     JRSegmentControl *segment;
+    
+    BOOL _isDrag;
 }
 
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -108,36 +110,53 @@
 /** 设置segment */
 - (void)setupSegmentControl
 {
-    segment = [[JRSegmentControl alloc] initWithFrame:CGRectMake(0, 0, self.itemWidth * self.viewControllers.count, self.itemHeight) titles:self.titles];
-    segment.backgroundColor = self.segmentBgColor;
+    _itemWidth = 60.0f;
+    // 设置titleView
+    segment = [[JRSegmentControl alloc] initWithFrame:CGRectMake(0, 0, _itemWidth * 3, 30.0f)];
+    segment.titles = self.titles;
+    segment.cornerRadius = 5.0f;
+    segment.titleColor = self.titleColor;
     segment.indicatorViewColor = self.indicatorViewColor;
+    segment.backgroundColor = self.segmentBgColor;
     
     segment.delegate = self;
     self.navigationItem.titleView = segment;
 }
 
 
-#pragma mark UIScrollViewDelegate
+#pragma mark - UIScrollViewDelegate
 
-// 这个方法是手动托动滚动视图停止后才会调用，在外部通过setContentOffset改变的不会调用
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    NSInteger index = scrollView.contentOffset.x / vcWidth;
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [segment selectedBegan];
+    _isDrag = YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
+    if (_isDrag) {
+        CGFloat percent = scrollView.contentOffset.x / scrollView.contentSize.width;
+        
+        [segment setIndicatorViewPercent:percent];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (decelerate == NO) {
+        [segment selectedEnd];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
     [segment setSelectedIndex:index];
+    _isDrag = NO;
 }
 
-#pragma mark JRSegmentControlDelegate
-- (void)segmentControl:(JRSegmentControl *)segment didSelectedIndex:(NSInteger)index
-{
-    CGPoint offset = CGPointMake(vcWidth * index, 0);
-    [self.scrollView setContentOffset:offset animated:YES];
-}
+#pragma mark - JRSegmentControlDelegate
 
-- (void)segmentControl:(JRSegmentControl *)segment didScrolledPersent:(CGFloat)persent
-{
-    CGPoint offset = CGPointMake(persent * self.scrollView.contentSize.width, 0);
-    [self.scrollView setContentOffset:offset animated:NO];
+- (void)segmentControl:(JRSegmentControl *)segment didSelectedIndex:(NSInteger)index {
+    CGFloat X = index * self.view.frame.size.width;
+    [self.scrollView setContentOffset:CGPointMake(X, 0) animated:YES];
 }
 
 @end
