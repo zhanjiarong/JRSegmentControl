@@ -55,6 +55,3 @@
     [self.view addSubView:segment];
 
 ```
-
-
-## QQ:541135917
