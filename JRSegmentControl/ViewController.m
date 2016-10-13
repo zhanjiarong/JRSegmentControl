@@ -36,6 +36,7 @@
     SecondViewController *secondVC = [[SecondViewController alloc] init];
     ThirdViewController *thirdVC = [[ThirdViewController alloc] init];
     
+    // ...
     JRSegmentViewController *vc = [[JRSegmentViewController alloc] init];
     vc.segmentBgColor = [UIColor colorWithRed:18.0f/255 green:50.0f/255 blue:110.0f/255 alpha:1.0f];
     vc.indicatorViewColor = [UIColor whiteColor];
